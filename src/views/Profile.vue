@@ -23,6 +23,10 @@
     <Container>
       <h4>Meus pedidos ({{ pages.total }})</h4>
     </Container>
+    <Container v-if="orders.length < 1" class="text-center">
+      <h3>Você ainda não fez nenhum pedido.</h3>
+      <lottie-player src="https://assets5.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay class="mx-auto"></lottie-player>
+    </Container>
     <Container v-for="order in orders" :key="order.id">
       <h5>Pedido #{{ order.id }} - Total: R${{ order.total }}</h5>
       <p>Conteúdo do pedido</p>
