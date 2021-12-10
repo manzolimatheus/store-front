@@ -7,7 +7,7 @@
         <p class="badge bg-success">R${{ price }}</p>
       </h5>
       <p class="card-text text-muted">
-        {{ perishable ? "Perecível" : "Não Perecível" }} - {{ date }}
+        {{ perishable ? "Perecível" : "Não Perecível" }} - {{ tag }}
       </p>
       <button
         class="btn btn-success rounded w-100"
@@ -21,11 +21,10 @@
 </template>
 
 <script>
-import * as dayjs from "dayjs";
 
 export default {
   name: "Card",
-  props: ["id", "name", "image", "price", "perishable", "created_at"],
+  props: ["id", "name", "image", "price", "perishable", "tag"],
   methods: {
     AddCart(id) {
       if (localStorage.getItem("token") == null) {
@@ -59,18 +58,13 @@ export default {
         }, 1000);
       }
     },
-  },
-  computed: {
-    date: function () {
-      return dayjs(this.created_at).format("DD/MM/YYYY");
-    },
-  },
+  }
 };
 </script>
 
 <style>
-.card-img-top{
-  width: 200px;
+.card-img-top {
+  width: 100%;
   height: 200px;
   object-fit: cover;
 }

@@ -13,13 +13,13 @@ export default {
     Navbar,
     Footer,
   },
-  mounted(){
-    if (localStorage.getItem('cart') === null){
-      const list = []
-      
-      localStorage.setItem('cart',JSON.stringify(list))
+  mounted() {
+    if (localStorage.getItem("cart") === null) {
+      const list = [];
+
+      localStorage.setItem("cart", JSON.stringify(list));
     }
-  }
+  },
 };
 </script>
 
@@ -52,5 +52,14 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.btn-success{
+  background-color: #27bd90;
+  border: 0;
+}
+
+.btn-success:hover{
+  background-color: #299c7a;
 }
 </style>

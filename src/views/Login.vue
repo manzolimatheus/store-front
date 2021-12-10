@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <Auth
-      image="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+      image="https://images.unsplash.com/photo-1554797589-7241bb691973?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80"
       :message="message"
     >
       <h1>Entrar</h1>
@@ -25,9 +25,15 @@
           minlength="8"
         />
         <br />
-        <router-link to="/register" class="text-decoration-none">Não tem uma conta? cadastre-se.</router-link>
-        <br>
-        <button type="submit" class="btn btn-success w-100 p-3 mt-3" id="button">
+        <router-link to="/register" class="text-decoration-none"
+          >Não tem uma conta? cadastre-se.</router-link
+        >
+        <br />
+        <button
+          type="submit"
+          class="btn btn-success w-100 p-3 mt-3"
+          id="button"
+        >
           Entrar
         </button>
       </form>

@@ -1,10 +1,13 @@
 <template>
-  <div id="auth" class="row w-100 bg-white ">
+  <div id="auth" class="row w-100 bg-white">
     <div class="col-lg g-0">
       <img :src="image" alt="Imagem em destaque" class="image-auth" />
     </div>
     <div class="col-lg">
       <div class="container p-3">
+        <div class="text-center">
+          <img src="/img/logo.png" alt="Logo">
+        </div>
         <slot></slot>
         <p class="text-danger">
           {{ message }}
@@ -22,9 +25,9 @@ export default {
 </script>
 
 <style scoped>
-.image-auth{
+.image-auth {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   object-fit: cover;
 }
 </style>

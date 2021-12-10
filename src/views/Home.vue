@@ -1,10 +1,6 @@
 <template>
   <div class="container mx-auto mb-3" id="home">
-    <Carousel
-      image01="https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop"
-      image02="https://images.unsplash.com/photo-1556740772-1a741367b93e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop"
-      image03="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop"
-    />
+    <img src="https://source.unsplash.com/800x300/?Japan" class="w-100" />
     <Container>
       <div class="loading" v-if="userLoaded === false">
         <div class="spinner-border" role="status">
@@ -12,30 +8,44 @@
         </div>
       </div>
       <div class="loaded" v-show="userLoaded">
-        <h1>Olá, {{ user }}! 👋</h1>
-        <p>O que deseja fazer hoje?</p>
+        <div class="row">
+          <div class="col-md p-5">
+            <h1>Olá, {{ user }}! 👋</h1>
+            <p>O que deseja fazer hoje?</p>
+          </div>
+          <div class="col-md">
+            <lottie-player
+              src="https://assets7.lottiefiles.com/packages/lf20_3vbOcw.json"
+              background="transparent"
+              speed="1"
+              style="width: 300px; height: 300px"
+              loop
+              autoplay
+            ></lottie-player>
+          </div>
+        </div>
       </div>
     </Container>
     <div class="row">
       <div class="col-md" v-if="user !== 'Visitante'">
         <router-link to="/profile" class="text-decoration-none text-black">
-        <Container class="text-center">
-          <h2>Pedidos</h2>
-          <h1>🛍</h1>
-        </Container>
+          <Container class="text-center p-5">
+            <h2><ion-icon name="cube-outline"></ion-icon> Pedidos</h2>
+            <img src="https://www.pngall.com/wp-content/uploads/5/Cardboard-Box-PNG-Image.png" alt="Caixa de pedidos" class="block-image">
+          </Container>
         </router-link>
       </div>
       <div class="col-md" v-if="user !== 'Visitante'">
         <router-link to="/admin" class="text-decoration-none text-black">
-        <Container class="text-center">
-          <h2>Gerenciar</h2>
-          <h1>🔧</h1>
-        </Container>
+          <Container class="text-center p-5">
+            <h2><ion-icon name="cog-outline"></ion-icon> Gerenciar</h2>
+            <img src="https://image.freepik.com/vetores-gratis/ilustracao-de-um-roda-dentada_53876-6328.jpg" alt="Gerenciar" class="block-image">
+          </Container>
         </router-link>
       </div>
     </div>
     <Container>
-      <h1>Categorias</h1>
+      <h1><ion-icon name="apps-outline"></ion-icon> Categorias</h1>
       <div class="loading" v-if="tagLoaded === false">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -46,14 +56,21 @@
         <div class="row">
           <div class="wrapper">
             <div class="col" v-for="tag in tags" :key="tag.id">
-              <Block :name="tag.name" @click="loadProducts(`http://127.0.0.1:8000/api/laravel/products/tag/${tag.id}`)"/>
+              <Block
+                :name="tag.name"
+                @click="
+                  loadProducts(
+                    `http://127.0.0.1:8000/api/laravel/products/tag/${tag.id}`
+                  )
+                "
+              />
             </div>
           </div>
         </div>
       </div>
     </Container>
     <Container>
-      <h1>Produtos ({{ products.length }})</h1>
+      <h1><ion-icon name="balloon-outline"></ion-icon> Produtos ({{ products.length }})</h1>
       <div class="loading" v-if="producstsLoaded === false">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -69,7 +86,7 @@
               :name="product.name"
               :price="product.price"
               :perishable="product.perishable"
-              :created_at="product.created_at"
+              :tag="product.tag"
             />
           </div>
         </div>
@@ -77,7 +94,9 @@
           <nav>
             <ul class="pagination">
               <li class="page-item">
-                <a class="page-link" @click="loadProducts(`${pages.links[0].url}`)"
+                <a
+                  class="page-link"
+                  @click="loadProducts(`${pages.links[0].url}`)"
                   >Página anterior</a
                 >
               </li>
@@ -88,9 +107,11 @@
                 class="page-item"
                 v-if="pages.current_page + 1 <= pages.last_page"
               >
-                <a class="page-link" @click="loadProducts(pages.next_page_url)">{{
-                  pages.current_page + 1
-                }}</a>
+                <a
+                  class="page-link"
+                  @click="loadProducts(pages.next_page_url)"
+                  >{{ pages.current_page + 1 }}</a
+                >
               </li>
               <li
                 class="page-item"
@@ -123,7 +144,6 @@
 <script>
 import Container from "@/components/Container.vue";
 import Block from "@/components/Block.vue";
-import Carousel from "@/components/Carousel.vue";
 import Card from "@/components/Card.vue";
 
 export default {
@@ -143,7 +163,6 @@ export default {
   components: {
     Container,
     Block,
-    Carousel,
     Card,
   },
   methods: {
@@ -162,7 +181,7 @@ export default {
       fetch(url)
         .then((response) => response.json())
         .then((response) => {
-          this.pages = response
+          this.pages = response;
           this.products = response.data;
           this.producstsLoaded = true;
         });
@@ -186,15 +205,15 @@ export default {
             this.user = response.name;
             this.userLoaded = true;
           });
-      }else{
-        this.userLoaded = true
+      } else {
+        this.userLoaded = true;
       }
     },
   },
   mounted() {
     this.LoadUser();
     this.loadCategories();
-    this.loadProducts('http://127.0.0.1:8000/api/laravel/products');
+    this.loadProducts("http://127.0.0.1:8000/api/laravel/products");
   },
 };
 </script>
@@ -204,5 +223,9 @@ export default {
   display: flex;
   overflow-x: auto;
   padding: 3%;
+}
+
+.block-image{
+  width: 200px; height:200px; object-fit: cover;
 }
 </style>

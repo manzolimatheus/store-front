@@ -9,6 +9,7 @@
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">
         Carrinho ({{ cart.length }})
       </h5>
+      <span class="text-danger">{{ message }}</span>
       <button
         type="button"
         class="btn-close text-reset"
@@ -68,6 +69,7 @@ export default {
       canvas_cart: [],
       qtd: 0,
       user: null,
+      message: null,
     };
   },
   methods: {
@@ -112,37 +114,54 @@ export default {
         });
     },
     async SendData() {
-      document.querySelector(
-        "#button"
-      ).innerHTML = `<div class="spinner-border" role="status">
+      let body = JSON.parse(localStorage.getItem("cart"));
+
+      if (body.length > 0) {
+        document.querySelector(
+          "#button"
+        ).innerHTML = `<div class="spinner-border" role="status">
   <span class="visually-hidden">Loading...</span>
 </div>`;
-      document.querySelector("#button").disabled = true;
-      const token = localStorage.getItem("token");
-      const pass = "laravel";
+        document.querySelector("#button").disabled = true;
+        const token = localStorage.getItem("token");
+        const pass = "laravel";
 
-      let body = JSON.parse(localStorage.getItem("cart"));
-      body[0].id_user = this.user;
+        body[0].id_user = this.user;
+        body[0].total = this.total;
 
-      fetch(`http://127.0.0.1:8000/api/${pass}/orders`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
-      })
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.status === 201) {
-            localStorage.setItem("cart", JSON.stringify([]));
-            this.$router.push('/profile')
-          } else {
-            document.querySelector("#button").disabled = false;
-            document.querySelector("#button").innerHTML = "Salvar pedido";
-          }
-        });
+        fetch(`http://127.0.0.1:8000/api/${pass}/orders`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            this.message = response.message;
+            if (response.status === 201) {
+              localStorage.setItem("cart", JSON.stringify([]));
+              this.$router.push("/profile");
+            } else {
+              document.querySelector("#button").disabled = false;
+              document.querySelector("#button").innerHTML = "Salvar pedido";
+              localStorage.setItem("cart", JSON.stringify([]));
+              this.canvas_cart = [];
+            }
+
+            setTimeout(() => {
+              this.message = null;
+            }, 2000);
+          });
+      } else {
+        this.message = "O carrinho deve conter items para continuar!";
+
+        setTimeout(() => {
+          this.message = null;
+        }, 2000);
+      }
     },
   },
   computed: {
@@ -153,7 +172,7 @@ export default {
         total += parseFloat(element.price * element.qtd);
       });
 
-      return total;
+      return total.toFixed(2);
     },
   },
   mounted() {

@@ -1,11 +1,10 @@
 <template>
-  <div id="nav" class="sticky-top">
+  <div id="nav" class="sticky-top text-center">
     <OffCanvas :cart="cart" />
     <nav>
-      <router-link to="/">Loja</router-link>
-      <router-link to="/">Início</router-link>
-      <router-link to="/login" v-if="auth === false">Entrar</router-link>
-      <router-link to="/about">Sobre</router-link>
+      <router-link to="/"><img src="/img/logo.png" alt="Logo" style="width:50px; clip-path: circle()"></router-link>
+      <router-link to="/"><ion-icon name="home-outline"></ion-icon></router-link>
+      <router-link to="/login" v-if="auth === false"><ion-icon name="log-in-outline"></ion-icon></router-link>
       <a
         data-bs-toggle="offcanvas"
         href="#offcanvasExample"
@@ -14,10 +13,10 @@
         @click="UpdateCanvas"
         v-show="auth"
       >
-        Carrinho
+        <ion-icon name="cart-outline"></ion-icon>
       </a>
-      <router-link to="/profile" v-show="auth">Minha conta</router-link>
-      <a href="/" @click="Logout" v-show="auth">Sair</a>
+      <router-link to="/profile" v-show="auth"><ion-icon name="person-circle-outline"></ion-icon></router-link>
+      <a href="/" @click="Logout" v-show="auth"><ion-icon name="log-out-outline"></ion-icon></a>
     </nav>
   </div>
 </template>
@@ -35,18 +34,18 @@ export default {
     return {
       auth: null,
       canvasKey: null,
-      cart: []
+      cart: [],
     };
   },
   methods: {
     Logout() {
       localStorage.removeItem("token");
-      localStorage.setItem('cart', JSON.stringify([]))
+      localStorage.setItem("cart", JSON.stringify([]));
       this.auth = false;
     },
-    UpdateCanvas(){
-      this.cart = JSON.parse(localStorage.getItem("cart"))
-    }
+    UpdateCanvas() {
+      this.cart = JSON.parse(localStorage.getItem("cart"));
+    },
   },
   mounted() {
     if (localStorage.getItem("token") !== null) {
@@ -60,13 +59,13 @@ export default {
 
 <style scoped>
 nav {
-  background-color: tomato;
+  background-color: #e070a5;
   padding: 1%;
 }
 
-nav a {
+nav ion-icon, a {
   color: white;
-  text-decoration: none;
+  font-size: 20pt;
   padding-inline: 1%;
 }
 </style>

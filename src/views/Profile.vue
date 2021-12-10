@@ -1,5 +1,5 @@
 <template>
-  <div id="profile" class="container mb-3">
+  <div id="profile" class="container mb-3 h-100">
     <Container>
       <div class="row w-100">
         <div class="col-lg-1">
@@ -15,13 +15,18 @@
           <p>Usuário desde {{ date }}</p>
         </div>
       </div>
+      <hr />
+      <button class="text-danger border-0" @click="deleteAccount">
+        Deletar conta
+      </button>
     </Container>
     <Container>
-      <h4>Meus pedidos ({{orders.length}})</h4>
+      <h4>Meus pedidos ({{ pages.total }})</h4>
     </Container>
     <Container v-for="order in orders" :key="order.id">
-      <h5>Pedido #{{order.id}}</h5>
+      <h5>Pedido #{{ order.id }} - Total: R${{ order.total }}</h5>
       <p>Conteúdo do pedido</p>
+      <div class="wrapper">
       <table class="table">
         <thead>
           <tr>
@@ -33,16 +38,64 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">{{JSON.parse(order.order)[0].id}}</th>
-            <td>{{JSON.parse(order.order)[0].name}}</td>
-            <td>R${{JSON.parse(order.order)[0].price}}</td>
-            <td>{{JSON.parse(order.order)[0].qtd}}</td>
-            <td>R${{JSON.parse(order.order)[0].price * JSON.parse(order.order)[0].qtd}}</td>
+          <tr v-for="(item, index) in JSON.parse(order.order)" :key="item.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ item.name }}</td>
+            <td>R${{ item.price }}</td>
+            <td>{{ item.qtd }}</td>
+            <td>R${{ item.price * item.qtd }}</td>
           </tr>
         </tbody>
       </table>
-      <a class="text-danger" @click="Delete(order.id)">Excluir pedido</a>
+      </div>
+      <a class="text-danger text-decoration-none" @click="Delete(order.id)"
+        >Excluir pedido</a
+      >
+    </Container>
+    <Container v-if="pages.per_page < pages.total">
+      <div class="container text-center">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item">
+              <a
+                class="page-link"
+                @click="fetchOrders(`${pages.links[0].url}`)"
+                >Página anterior</a
+              >
+            </li>
+            <li class="page-item active">
+              <a class="page-link">{{ pages.current_page }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="pages.current_page + 1 <= pages.last_page"
+            >
+              <a class="page-link" @click="fetchOrders(pages.next_page_url)">{{
+                pages.current_page + 1
+              }}</a>
+            </li>
+            <li
+              class="page-item"
+              v-if="pages.current_page + 2 <= pages.last_page"
+            >
+              <a
+                class="page-link"
+                @click="
+                  fetchOrders(`${pages.links[pages.current_page + 2].url}`)
+                "
+                >{{ pages.current_page + 2 }}</a
+              >
+            </li>
+            <li class="page-item">
+              <a
+                class="page-link"
+                @click="fetchOrders(`${pages.last_page_url}`)"
+                >Última página</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </Container>
   </div>
 </template>
@@ -60,15 +113,14 @@ export default {
     return {
       data: [],
       orders: [],
-      pages: []
+      pages: [],
     };
   },
   methods: {
-    fetchOrders() {
+    fetchOrders(url) {
       const token = localStorage.getItem("token");
-      const pass = "laravel";
 
-      fetch(`http://127.0.0.1:8000/api/${pass}/myorders`, {
+      fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -79,11 +131,11 @@ export default {
       })
         .then((response) => response.json())
         .then((response) => {
-          this.orders = response.data
-          this.pages = response
+          this.orders = response.data;
+          this.pages = response;
         });
     },
-    async Delete(id){
+    async Delete(id) {
       const token = localStorage.getItem("token");
       const pass = "laravel";
 
@@ -93,19 +145,40 @@ export default {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-        }
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.status === 201) {
+            this.fetchOrders('http://127.0.0.1:8000/api/laravel/myorders');
+          }
+        });
+    },
+    async deleteAccount(){
+      const token = localStorage.getItem("token");
+      console.log(token)
+
+      fetch(`http://127.0.0.1:8000/api/user/`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({id: this.data.id}),
       })
         .then((response) => response.json())
         .then((response) => {
           if (response.status === 201){
-            this.fetchOrders()
+            localStorage.removeItem("token");
+            localStorage.setItem("cart", JSON.stringify([]));
+            this.$router.push('/')
           }
         });
     }
   },
   mounted() {
-    document.querySelector("body").style.overflow = 'scroll';
-    document.querySelector("body").style.paddingRight = 0;
+    document.querySelector("body").style = ""
     const token = localStorage.getItem("token");
 
     if (token !== null) {
@@ -122,7 +195,7 @@ export default {
         .then((response) => response.json())
         .then((response) => {
           this.data = response;
-          this.fetchOrders()
+          this.fetchOrders('http://127.0.0.1:8000/api/laravel/myorders');
         });
     } else {
       this.$router.push("/login");
@@ -136,9 +209,19 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .image-icon {
   width: 80px;
   object-fit: cover;
+}
+
+a {
+  cursor: pointer;
+}
+
+.wrapper {
+  display: flex;
+  overflow-x: auto;
+  padding: 3%;
 }
 </style>

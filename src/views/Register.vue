@@ -1,11 +1,11 @@
 <template>
   <div id="register">
     <Auth
-      image="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+      image="https://images.unsplash.com/photo-1551641506-ee5bf4cb45f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=884&q=80"
       :message="message"
     >
       <h1>Cadastrar-se</h1>
-      <form @submit.prevent="Register()" @input="FormCheck">
+      <form @submit.prevent="Register()">
         <label for="name">Nome</label>
         <input type="text" class="form-control" v-model="name" required />
         <br />
@@ -32,15 +32,16 @@
           required
         />
         <br />
-        <router-link to="/login" class="text-decoration-none">Já tem uma conta? Entre</router-link>
-        <br>
+        <router-link to="/login" class="text-decoration-none"
+          >Já tem uma conta? Entre</router-link
+        >
+        <br />
         <button
           class="btn btn-success w-100 p-3 mt-3"
           id="button"
-          disabled
           type="submit"
         >
-          Cadastrar
+          Cadastrar 
         </button>
       </form>
     </Auth>
@@ -70,19 +71,6 @@ export default {
         this.message = "As senhas não coincidem!";
       } else {
         this.message = null;
-      }
-    },
-    FormCheck() {
-      if (
-        this.name !== null &&
-        this.email !== null &&
-        this.password !== null &&
-        this.confirm_password !== null &&
-        this.message === null
-      ) {
-        document.querySelector("#button").disabled = false;
-      } else {
-        document.querySelector("#button").disabled = true;
       }
     },
     async Register() {
