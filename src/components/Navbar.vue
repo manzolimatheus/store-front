@@ -2,9 +2,18 @@
   <div id="nav" class="sticky-top text-center">
     <OffCanvas :cart="cart" />
     <nav>
-      <router-link to="/"><img src="/img/logo.png" alt="Logo" style="width:50px; clip-path: circle()"></router-link>
-      <router-link to="/"><ion-icon name="home-outline"></ion-icon></router-link>
-      <router-link to="/login" v-if="auth === false"><ion-icon name="log-in-outline"></ion-icon></router-link>
+      <router-link to="/"
+        ><img
+          src="/img/logo.png"
+          alt="Logo"
+          style="width: 50px; clip-path: circle()"
+      /></router-link>
+      <router-link to="/"
+        ><ion-icon name="home-outline"></ion-icon
+      ></router-link>
+      <router-link to="/login" v-if="auth === false"
+        ><ion-icon name="log-in-outline"></ion-icon
+      ></router-link>
       <a
         data-bs-toggle="offcanvas"
         href="#offcanvasExample"
@@ -15,8 +24,12 @@
       >
         <ion-icon name="cart-outline"></ion-icon>
       </a>
-      <router-link to="/profile" v-show="auth"><ion-icon name="person-circle-outline"></ion-icon></router-link>
-      <a href="/" @click="Logout" v-show="auth"><ion-icon name="log-out-outline"></ion-icon></a>
+      <router-link to="/profile" v-show="auth"
+        ><ion-icon name="person-circle-outline"></ion-icon
+      ></router-link>
+      <a href="/" @click="Logout" v-show="auth"
+        ><ion-icon name="log-out-outline"></ion-icon
+      ></a>
     </nav>
   </div>
 </template>
@@ -63,7 +76,8 @@ nav {
   padding: 1%;
 }
 
-nav ion-icon, a {
+nav ion-icon,
+a {
   color: white;
   font-size: 20pt;
   padding-inline: 1%;

@@ -21,7 +21,9 @@
         </div>
         <div class="modal-body">
           <form @submit.prevent="SendData" id="form">
-            <label for="name"><ion-icon name="text-outline"></ion-icon> Nome do produto</label>
+            <label for="name"
+              ><ion-icon name="text-outline"></ion-icon> Nome do produto</label
+            >
             <input
               type="text"
               class="form-control"
@@ -32,7 +34,10 @@
             <br />
             <div class="row">
               <div class="col-md-8">
-                <label for="image"><ion-icon name="image-outline"></ion-icon> Imagem do produto</label>
+                <label for="image"
+                  ><ion-icon name="image-outline"></ion-icon> Imagem do
+                  produto</label
+                >
                 <input
                   type="text"
                   class="form-control"
@@ -53,7 +58,9 @@
               </div>
             </div>
             <br />
-            <label for="price"><ion-icon name="pricetags-outline"></ion-icon> Preço</label>
+            <label for="price"
+              ><ion-icon name="pricetags-outline"></ion-icon> Preço</label
+            >
             <input
               type="number"
               min="0"
@@ -63,14 +70,20 @@
               id="price"
             />
             <br />
-            <label for="tag"><ion-icon name="pricetag-outline"></ion-icon> Categoria do produto</label>
+            <label for="tag"
+              ><ion-icon name="pricetag-outline"></ion-icon> Categoria do
+              produto</label
+            >
             <select class="form-select" id="tag" @change="selected($event)">
               <option v-for="tag in tags" :key="tag.id" :value="tag.id">
                 {{ tag.name }}
               </option>
             </select>
             <br />
-            <label><ion-icon name="fast-food-outline"></ion-icon> O produto é perecível?</label>
+            <label
+              ><ion-icon name="fast-food-outline"></ion-icon> O produto é
+              perecível?</label
+            >
             <div class="form-check">
               <input
                 type="radio"

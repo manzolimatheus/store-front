@@ -41,7 +41,7 @@
           id="button"
           type="submit"
         >
-          Cadastrar 
+          Cadastrar
         </button>
       </form>
     </Auth>

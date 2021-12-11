@@ -21,7 +21,6 @@
 </template>
 
 <script>
-
 export default {
   name: "Card",
   props: ["id", "name", "image", "price", "perishable", "tag"],
@@ -58,7 +57,7 @@ export default {
         }, 1000);
       }
     },
-  }
+  },
 };
 </script>
 

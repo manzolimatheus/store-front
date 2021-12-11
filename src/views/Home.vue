@@ -31,7 +31,11 @@
         <router-link to="/profile" class="text-decoration-none text-black">
           <Container class="text-center p-5">
             <h2><ion-icon name="cube-outline"></ion-icon> Pedidos</h2>
-            <img src="https://www.pngall.com/wp-content/uploads/5/Cardboard-Box-PNG-Image.png" alt="Caixa de pedidos" class="block-image">
+            <img
+              src="https://www.pngall.com/wp-content/uploads/5/Cardboard-Box-PNG-Image.png"
+              alt="Caixa de pedidos"
+              class="block-image"
+            />
           </Container>
         </router-link>
       </div>
@@ -39,7 +43,11 @@
         <router-link to="/admin" class="text-decoration-none text-black">
           <Container class="text-center p-5">
             <h2><ion-icon name="cog-outline"></ion-icon> Gerenciar</h2>
-            <img src="https://image.freepik.com/vetores-gratis/ilustracao-de-um-roda-dentada_53876-6328.jpg" alt="Gerenciar" class="block-image">
+            <img
+              src="https://image.freepik.com/vetores-gratis/ilustracao-de-um-roda-dentada_53876-6328.jpg"
+              alt="Gerenciar"
+              class="block-image"
+            />
           </Container>
         </router-link>
       </div>
@@ -70,7 +78,11 @@
       </div>
     </Container>
     <Container>
-      <h1><ion-icon name="balloon-outline"></ion-icon> Produtos ({{ products.length }})</h1>
+      <h1>
+        <ion-icon name="balloon-outline"></ion-icon> Produtos ({{
+          products.length
+        }})
+      </h1>
       <div class="loading" v-if="producstsLoaded === false">
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
@@ -225,7 +237,9 @@ export default {
   padding: 3%;
 }
 
-.block-image{
-  width: 200px; height:200px; object-fit: cover;
+.block-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 </style>

@@ -25,32 +25,40 @@
     </Container>
     <Container v-if="orders.length < 1" class="text-center">
       <h3>Você ainda não fez nenhum pedido.</h3>
-      <lottie-player src="https://assets5.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay class="mx-auto"></lottie-player>
+      <lottie-player
+        src="https://assets5.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"
+        background="transparent"
+        speed="1"
+        style="width: 300px; height: 300px"
+        loop
+        autoplay
+        class="mx-auto"
+      ></lottie-player>
     </Container>
     <Container v-for="order in orders" :key="order.id">
       <h5>Pedido #{{ order.id }} - Total: R${{ order.total }}</h5>
       <p>Conteúdo do pedido</p>
       <div class="wrapper">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Produto</th>
-            <th scope="col">Valor Uni.</th>
-            <th scope="col">Quantidade</th>
-            <th scoped="cool">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in JSON.parse(order.order)" :key="item.id">
-            <th scope="row">{{ index + 1 }}</th>
-            <td>{{ item.name }}</td>
-            <td>R${{ item.price }}</td>
-            <td>{{ item.qtd }}</td>
-            <td>R${{ item.price * item.qtd }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Produto</th>
+              <th scope="col">Valor Uni.</th>
+              <th scope="col">Quantidade</th>
+              <th scoped="cool">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in JSON.parse(order.order)" :key="item.id">
+              <th scope="row">{{ index + 1 }}</th>
+              <td>{{ item.name }}</td>
+              <td>R${{ item.price }}</td>
+              <td>{{ item.qtd }}</td>
+              <td>R${{ item.price * item.qtd }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <a class="text-danger text-decoration-none" @click="Delete(order.id)"
         >Excluir pedido</a
@@ -61,9 +69,7 @@
         <nav>
           <ul class="pagination">
             <li class="page-item">
-              <a
-                class="page-link"
-                @click="fetchOrders(`${pages.links[0].url}`)"
+              <a class="page-link" @click="fetchOrders(`${pages.links[0].url}`)"
                 >Página anterior</a
               >
             </li>
@@ -154,13 +160,13 @@ export default {
         .then((response) => response.json())
         .then((response) => {
           if (response.status === 201) {
-            this.fetchOrders('http://127.0.0.1:8000/api/laravel/myorders');
+            this.fetchOrders("http://127.0.0.1:8000/api/laravel/myorders");
           }
         });
     },
-    async deleteAccount(){
+    async deleteAccount() {
       const token = localStorage.getItem("token");
-      console.log(token)
+      console.log(token);
 
       fetch(`http://127.0.0.1:8000/api/user/`, {
         method: "DELETE",
@@ -169,20 +175,20 @@ export default {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({id: this.data.id}),
+        body: JSON.stringify({ id: this.data.id }),
       })
         .then((response) => response.json())
         .then((response) => {
-          if (response.status === 201){
+          if (response.status === 201) {
             localStorage.removeItem("token");
             localStorage.setItem("cart", JSON.stringify([]));
-            this.$router.push('/')
+            this.$router.push("/");
           }
         });
-    }
+    },
   },
   mounted() {
-    document.querySelector("body").style = ""
+    document.querySelector("body").style = "";
     const token = localStorage.getItem("token");
 
     if (token !== null) {
@@ -199,7 +205,7 @@ export default {
         .then((response) => response.json())
         .then((response) => {
           this.data = response;
-          this.fetchOrders('http://127.0.0.1:8000/api/laravel/myorders');
+          this.fetchOrders("http://127.0.0.1:8000/api/laravel/myorders");
         });
     } else {
       this.$router.push("/login");

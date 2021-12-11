@@ -54,12 +54,12 @@ body {
   background: #555;
 }
 
-.btn-success{
+.btn-success {
   background-color: #27bd90;
   border: 0;
 }
 
-.btn-success:hover{
+.btn-success:hover {
   background-color: #299c7a;
 }
 </style>

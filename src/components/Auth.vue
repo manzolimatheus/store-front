@@ -6,7 +6,7 @@
     <div class="col-lg">
       <div class="container p-3">
         <div class="text-center">
-          <img src="/img/logo.png" alt="Logo">
+          <img src="/img/logo.png" alt="Logo" />
         </div>
         <slot></slot>
         <p class="text-danger">
